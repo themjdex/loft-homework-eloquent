@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог обо всем</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../../../styles/gate.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="header row justify-content-between align-items-center">
+        <h1 class="col-3">Блог обо всем</h1>
+        <p class="col-3 hello">Добро пожаловать!</p>
+        <? if ($role == ADMIN_ROLE): ?>
+        <div class="col-2">
+            <a href="user/admin" class="cabinet">Админка</a>
+        </div>
+        <? endif;?>
+        <form action="/user/logout" class="col-1">
+            <input type="submit" value="Выйти" class="btn btn-danger">
+        </form>
+    </div>
+    <div class="row align-items-start justify-content-center">
+        <form enctype="multipart/form-data" action="blog/index" method="post">
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Сделать запись в блог</label>
+                <textarea name="message" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div>
+                <span>Прикрепить картинку:</span> <br>
+                <input name="userfile" type="file"><br>
+            </div>
+            <br>
+            <div>
+                <input type="submit" value="Отправить" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+
+    <div class="row justify-content-end align-items-center">
+        <form action="/blog/mypost" class="col-3">
+            <input type="submit" value="Показать только мои сообщения" class="btn btn-secondary">
+        </form>
+    </div>
+
+    <?php foreach ($posts as $post): ?>
+        <div class="post">
+            <div>
+                <img class="ava" src=<?=$avatar[$post['user_id']-1]['avatar']?>>
+            </div>
+            <span class="user">Сообщение <?=$post['id']?> от пользователя с ID:
+                <b><?=$post['user_id']?></b> создано <?=$post['created_date']; ?>
+            </span>
+            <div class="message"><?=$post['message']; ?></div>
+            <? if (file_exists('./images/' . $post['id'] . '.png')):?>
+                <img src="../../../src/image.php/?id=<?=$post['id'];?>">
+            <? endif;?>
+            <? if ($role == ADMIN_ROLE): ?>
+                <form action="blog/delete" method="post">
+                    <input type="hidden" name="postId" value="<?php echo $post['id']?>">
+                    <input type="submit" value="Удалить" class="btn btn-danger del-btn">
+                </form>
+            <? endif;?>
+
+        </div>
+    <? endforeach; ?>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

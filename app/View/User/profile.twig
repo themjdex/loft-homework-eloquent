@@ -1,0 +1,25 @@
+{% include 'header.twig' %}
+
+
+<div class="container">
+    <div class="header row justify-content-between align-items-center">
+        <h1 class="col-3">Блог обо всем</h1>
+        <p class="col-3 hello">Добро пожаловать!</p>
+        <div class="col-2">
+            <a href="http://week5-eloquent/blog" class="blog">В блог</a>
+        </div>
+        <form action="/user/logout" class="col-1">
+            <input type="submit" value="Выйти" class="btn btn-danger">
+        </form>
+    </div>
+    <div>
+        <h2>Карточка пользователя</h2>
+        <p><b>Ваше имя:</b> {{ view.name }}</p>
+        <p><b>Ваша почта:</b> {{ view.email }}</p>
+        <p><b>Вы зарегистрированы:</b> {{ view.createdAt }}</p>
+        <p><b>Вы пользователь с ID:</b> {{ view.id }}</p>
+    </div>
+
+</div>
+
+{% include 'footer.twig' %}
